@@ -1,0 +1,121 @@
+﻿@page "/treeview"
+@using System.Reflection;
+@using System.Text;
+@using System.Xml.Linq;
+@using System.Runtime.Serialization.Json;
+@using System.Text.Json;
+@using System.Xml.Serialization;
+@using System.Xml;
+@using YamlDotNet.Serialization;
+@inject IJSRuntime JSRuntime
+
+<div class="container"> 
+    <h3>Tree View</h3>
+    <ul class="list-group">
+        @foreach (var node in nodes)
+        {
+            <li class="list-group-item list-group-item-success">
+                <div class="row">
+                    <div class="col">
+                        <input type="checkbox" @bind="@node.IsSelected"/>
+                        <span>@node.NodeText</span>       
+                    </div>
+                    @if (node.ChildNodes.Count > 0)
+                    {
+                        <div class="container">
+                            <ul>
+                               <TreeViewNode ChildNodes="node.ChildNodes" CheckParentNode="node.IsSelected" Count="1"/>
+                            </ul>
+                        </diV>
+                    }
+                </div>
+            </li>
+        }
+    </ul>
+
+    <button class="btn btn-success mt-1" @onclick="()=>DownloadYMLFile(1)">SAVE YML</button>
+     <button class="btn btn-primary mt-1"  @onclick="()=>DownloadYMLFile(2)">SAVE XML</button>
+</div>
+
+
+
+@code {
+
+
+    private List<TreeNode> nodes = new List<TreeNode>
+    {
+
+        new TreeNode(0, "Root", true, -1 , new List<TreeNode>
+        {
+             new TreeNode(1, "Node 1", true , 0, new List<TreeNode>
+            {
+                new TreeNode( 2, "Node 1.1" , true,1),
+                new TreeNode(3 , "Node 1.2" , true,1)
+            }),
+
+            new TreeNode( 4 , "Node 2" , true,0),
+
+            new TreeNode(5,"Node 3" , true, 0, new List<TreeNode>
+            {
+                new TreeNode(6,"Node 3.1" , true, 5),
+                new TreeNode(7,"Node 3.2" , true, 5),
+            })
+        })
+    };
+
+
+    public async void DownloadYMLFile(int value)
+    {
+
+        string fileContent = string.Empty;
+        string fileExtension = string.Empty;
+        string fileName =  string.Empty;
+        if (value == 1)
+        {
+            fileContent = new SerializerBuilder().Build().Serialize(nodes[0]);
+            fileName = "YAMLdata.yml";
+            fileExtension = "yaml";
+        }
+        if (value == 2)
+        {
+            fileContent = SerializeObjectToXml(nodes[0]);
+            fileName = "XMLdata.xml";
+            fileExtension = "xml";
+        }
+
+        try
+        {
+            await JSRuntime.InvokeAsync<object>("SaveFile", fileName, fileContent , fileExtension);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+    }
+
+
+    public static string SerializeObjectToXml<T>(T obj)
+    {
+        var xmlSerializer = new XmlSerializer(typeof(T));
+        var xmlWriterSettings = new XmlWriterSettings
+        {
+            Indent = true, 
+            Encoding = Encoding.UTF8, 
+            OmitXmlDeclaration = false  // Include the XML declaration <?xml version="1.0" encoding="UTF-8"?>
+        };
+
+        using var stringWriter = new StringWriter();
+        using var xmlWriter = XmlWriter.Create(stringWriter, xmlWriterSettings);
+
+        var ns = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
+        xmlSerializer.Serialize(xmlWriter, obj, ns);
+
+        return stringWriter.ToString();
+    }
+
+
+}
+
+
+
+

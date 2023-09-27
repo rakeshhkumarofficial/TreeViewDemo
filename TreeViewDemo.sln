@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeViewDemo", "TreeViewDemo.csproj", "{3CF94681-5AC4-4FCC-B4F0-AB5F2197A3F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeViewDemo.Models", "..\TreeViewDemo.Models\TreeViewDemo.Models.csproj", "{D9FCD13F-1C15-4FCB-B7E9-4204F76ED8E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CF94681-5AC4-4FCC-B4F0-AB5F2197A3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CF94681-5AC4-4FCC-B4F0-AB5F2197A3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CF94681-5AC4-4FCC-B4F0-AB5F2197A3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CF94681-5AC4-4FCC-B4F0-AB5F2197A3F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9FCD13F-1C15-4FCB-B7E9-4204F76ED8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9FCD13F-1C15-4FCB-B7E9-4204F76ED8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9FCD13F-1C15-4FCB-B7E9-4204F76ED8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9FCD13F-1C15-4FCB-B7E9-4204F76ED8E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B79DA44-CB3D-4608-9572-899B3F53C236}
+	EndGlobalSection
+EndGlobal

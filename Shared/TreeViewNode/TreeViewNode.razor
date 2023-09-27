@@ -1,0 +1,75 @@
+﻿
+@foreach (var childnode in ChildNodes)
+{
+    if (Count == 7)
+    {
+        Count = 1;
+    }
+    @if (Count == 1)
+    {
+        ListColor = "list-group-item list-group-item-primary";
+    }
+    else if (Count == 2)
+    {
+        ListColor = "list-group-item list-group-item-light";
+    }
+    else if (Count == 3)
+    {
+        ListColor = "list-group-item list-group-item-warning";
+    }
+    else if (Count == 4)
+    {
+        ListColor = "list-group-item list-group-item-danger";
+    }
+    else if (Count == 5)
+    {
+        ListColor = "list-group-item list-group-item-success";
+    }
+    else if (Count == 6)
+    {
+        ListColor = "list-group-item list-group-item-info";
+    }
+
+    Count++;
+
+    <li class=@ListColor>
+        <div class="row">
+            <div class="col">
+                @if (!CheckParentNode)
+                {
+                    childnode.IsSelected = false;
+                    <input type="checkbox" @bind="@childnode.IsSelected" disabled>
+                }
+                else
+                {
+                    <input type="checkbox" @bind="@childnode.IsSelected" @onclick="()=>{ childnode.IsSelected= !childnode.IsSelected;}">
+                }
+                <span>@childnode.NodeText</span>
+            </div>
+
+            @if (childnode.ChildNodes.Count > 0)
+            {
+                <div class="container">
+                    <ul class="list-group">
+                        <TreeViewNode ChildNodes="childnode.ChildNodes" CheckParentNode="childnode.IsSelected" Count="Count" />
+                    </ul>
+                </div>
+            }
+        </div>
+    </li>
+
+}
+
+
+@code {
+
+    [Parameter]
+    public List<TreeNode> ChildNodes { get; set; } = new List<TreeNode>();
+
+    [Parameter]
+    public bool CheckParentNode { get; set; }
+
+    [Parameter]
+    public int Count { get; set; }
+    public string ListColor = string.Empty;
+}
