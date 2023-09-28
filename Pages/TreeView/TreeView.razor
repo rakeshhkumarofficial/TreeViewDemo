@@ -1,96 +1,122 @@
 ﻿@page "/treeview"
-@using System.Reflection;
-@using System.Text;
-@using System.Xml.Linq;
-@using System.Runtime.Serialization.Json;
-@using System.Text.Json;
-@using System.Xml.Serialization;
-@using System.Xml;
-@using YamlDotNet.Serialization;
 @inject IJSRuntime JSRuntime
+@inject IFileService fileService;
 
-<div class="container"> 
+
+<div class="text-center">
     <h3>Tree View</h3>
-    <ul class="list-group">
+</div>
+
+
+<div class="scrollmenu tree">
+    <ul>
         @foreach (var node in nodes)
         {
-            <li class="list-group-item list-group-item-success">
-                <div class="row">
-                    <div class="col">
-                        <input type="checkbox" @bind="@node.IsSelected"/>
-                        <span>@node.NodeText</span>       
-                    </div>
-                    @if (node.ChildNodes.Count > 0)
-                    {
-                        <div class="container">
-                            <ul>
-                               <TreeViewNode ChildNodes="node.ChildNodes" CheckParentNode="node.IsSelected" Count="1"/>
-                            </ul>
-                        </diV>
-                    }
+            <li>
+                <div>
+                    <input type="checkbox" @bind="@node.IsSelected" />
+                    <span class="ms-1">@node.NodeText</span>
                 </div>
+
+                @if (node.ChildNodes.Count > 0)
+                {
+                    <ul>
+                        <TreeViewNode ChildNodes="node.ChildNodes" CheckParentNode="node.IsSelected" />
+                    </ul>
+                }
             </li>
         }
     </ul>
+</div>
 
-    <button class="btn btn-success mt-1" @onclick="()=>DownloadYMLFile(1)">SAVE YML</button>
-     <button class="btn btn-primary mt-1"  @onclick="()=>DownloadYMLFile(2)">SAVE XML</button>
+<div class="text-center">
+    <button class="add-button" @onclick="()=>SaveFile(1)">SAVE YML</button>
+    <button class="add-button" @onclick="()=>SaveFile(2)">SAVE XML</button>
+    <button class="add-button" @onclick="()=>SaveFile(3)">SAVE JsonPath</button>
+    <button class="add-button" @onclick="()=>SaveFile(4)">SAVE XMLPath</button>
 </div>
 
 
 
 @code {
 
+    private string selectedNodesJsonPath = "";
+    private string selectedNodesXPath = "";
 
     private List<TreeNode> nodes = new List<TreeNode>
     {
 
         new TreeNode(0, "Root", true, -1 , new List<TreeNode>
         {
-             new TreeNode(1, "Node 1", true , 0, new List<TreeNode>
+             new TreeNode(1, "Node1", true , 0, new List<TreeNode>
             {
-                new TreeNode( 2, "Node 1.1" , true,1),
-                new TreeNode(3 , "Node 1.2" , true,1)
+                new TreeNode( 2, "Node11" , true,1),
+                new TreeNode(3 , "Node12" , true,1,new List<TreeNode>
+                {
+                    new TreeNode(50,"Node121" , true, 3),
+                    new TreeNode(60,"Node122" , true, 3),
+                    new TreeNode(70,"Node123" , true, 3)
+                })
             }),
 
-            new TreeNode( 4 , "Node 2" , true,0),
+            new TreeNode( 4 , "Node2" , true,0),
 
-            new TreeNode(5,"Node 3" , true, 0, new List<TreeNode>
+
+            new TreeNode(5,"Node3" , true, 0, new List<TreeNode>
             {
-                new TreeNode(6,"Node 3.1" , true, 5),
-                new TreeNode(7,"Node 3.2" , true, 5),
-            })
+                new TreeNode(6,"Node31" , true, 5),
+                new TreeNode(7,"Node32" , true, 5),
+            }),
+           new TreeNode( 8 , "Node4" , true,0,new List<TreeNode>
+            {
+                new TreeNode(9,"Node41" , true, 8),
+                new TreeNode(10,"Node42" , true, 8),
+                new TreeNode(10,"Node43" , true, 8)
+            }),
+           new TreeNode( 11 , "Node5" , true,0),
         })
     };
 
-
-    public async void DownloadYMLFile(int value)
+    public async void SaveFile(int value)
     {
 
         string fileContent = string.Empty;
         string fileExtension = string.Empty;
         string fileName =  string.Empty;
+
         if (value == 1)
         {
             fileContent = new SerializerBuilder().Build().Serialize(nodes[0]);
-            fileName = "YAMLdata.yml";
             fileExtension = "yaml";
+            fileName = $"YAMLdata{DateTime.Now:yyyyMMddHHmmssfff}.{fileExtension}";
         }
         if (value == 2)
         {
             fileContent = SerializeObjectToXml(nodes[0]);
-            fileName = "XMLdata.xml";
             fileExtension = "xml";
+            fileName = $"XMLdata{DateTime.Now:yyyyMMddHHmmssfff}.{fileExtension}";
+        }
+        if(value == 3)
+        {
+            selectedNodesJsonPath = ConvertToJsonPath(nodes, "");
+            fileExtension = "yaml";
+            fileContent = new SerializerBuilder().Build().Serialize(selectedNodesJsonPath);
+            fileName = $"JosnPath{DateTime.Now:yyyyMMddHHmmssfff}.{fileExtension}";
+        }
+        if (value == 4)
+        {
+            selectedNodesXPath = ConvertToXPath(nodes, "");
+            fileExtension = "yaml";
+            fileContent = new SerializerBuilder().Build().Serialize(selectedNodesXPath);
+            fileName = $"XMLPath{DateTime.Now:yyyyMMddHHmmssfff}.{fileExtension}";
         }
 
-        try
-        {
-            await JSRuntime.InvokeAsync<object>("SaveFile", fileName, fileContent , fileExtension);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error occurred: {ex.Message}");
-        }
+        // save file
+        fileService.SaveFile(fileName, fileContent , value);
+        await JSRuntime.InvokeVoidAsync("Toaster", "success", "File Saved Successfully");
+
+        // download file
+        // await JSRuntime.InvokeAsync<object>("DownloadFile", fileName, fileContent , fileExtension);
     }
 
 
@@ -101,7 +127,7 @@
         {
             Indent = true, 
             Encoding = Encoding.UTF8, 
-            OmitXmlDeclaration = false  // Include the XML declaration <?xml version="1.0" encoding="UTF-8"?>
+            OmitXmlDeclaration = false  
         };
 
         using var stringWriter = new StringWriter();
@@ -111,6 +137,58 @@
         xmlSerializer.Serialize(xmlWriter, obj, ns);
 
         return stringWriter.ToString();
+    }
+
+    private string ConvertToJsonPath(List<TreeNode> nodes, string path)
+    {
+        var jsonPathList = new List<string>();
+
+        foreach (var node in nodes)
+        {
+            if (node.IsSelected)
+            {
+                var nodePath = $"{path}.{node.NodeText}";
+                if (node.ChildNodes.Count > 0)
+                {
+                    var childJsonPath = ConvertToJsonPath(node.ChildNodes, nodePath);
+                    jsonPathList.Add(childJsonPath);
+                }
+                else
+                {
+                    jsonPathList.Add(nodePath.TrimStart('.'));
+                }
+            } 
+        }
+
+        // Join all the JSON paths with a delimiter 
+        return string.Join("/", jsonPathList);
+    }
+
+    private string ConvertToXPath(List<TreeNode> nodes, string path)
+    {
+        var xPathList = new List<string>();
+
+        foreach (var node in nodes)
+        {
+            if (node.IsSelected)
+            {
+                var nodePath = $"{path}/{node.NodeText}";
+
+                if (node.ChildNodes.Count > 0)
+                {
+                    var childXPath = ConvertToXPath(node.ChildNodes, nodePath);
+                    xPathList.Add(childXPath);
+                }
+                else
+                {
+                    // Add the current node path to the list
+                    xPathList.Add(nodePath.TrimStart('/'));
+                }
+            }
+        }
+
+        // Join all the XPath expressions with a separator
+        return string.Join("/", xPathList);
     }
 
 

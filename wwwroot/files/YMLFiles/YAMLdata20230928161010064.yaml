@@ -1,0 +1,80 @@
+Id: 0
+NodeText: Root
+IsSelected: true
+ParentNodeId: -1
+ChildNodes:
+- Id: 1
+  NodeText: Node1
+  IsSelected: true
+  ParentNodeId: 0
+  ChildNodes:
+  - Id: 2
+    NodeText: Node11
+    IsSelected: true
+    ParentNodeId: 1
+    ChildNodes: []
+  - Id: 3
+    NodeText: Node12
+    IsSelected: true
+    ParentNodeId: 1
+    ChildNodes:
+    - Id: 50
+      NodeText: Node121
+      IsSelected: true
+      ParentNodeId: 3
+      ChildNodes: []
+    - Id: 60
+      NodeText: Node122
+      IsSelected: true
+      ParentNodeId: 3
+      ChildNodes: []
+    - Id: 70
+      NodeText: Node123
+      IsSelected: false
+      ParentNodeId: 3
+      ChildNodes: []
+- Id: 4
+  NodeText: Node2
+  IsSelected: false
+  ParentNodeId: 0
+  ChildNodes: []
+- Id: 5
+  NodeText: Node3
+  IsSelected: true
+  ParentNodeId: 0
+  ChildNodes:
+  - Id: 6
+    NodeText: Node31
+    IsSelected: false
+    ParentNodeId: 5
+    ChildNodes: []
+  - Id: 7
+    NodeText: Node32
+    IsSelected: true
+    ParentNodeId: 5
+    ChildNodes: []
+- Id: 8
+  NodeText: Node4
+  IsSelected: true
+  ParentNodeId: 0
+  ChildNodes:
+  - Id: 9
+    NodeText: Node41
+    IsSelected: true
+    ParentNodeId: 8
+    ChildNodes: []
+  - Id: 10
+    NodeText: Node42
+    IsSelected: true
+    ParentNodeId: 8
+    ChildNodes: []
+  - Id: 10
+    NodeText: Node43
+    IsSelected: true
+    ParentNodeId: 8
+    ChildNodes: []
+- Id: 11
+  NodeText: Node5
+  IsSelected: true
+  ParentNodeId: 0
+  ChildNodes: []

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-16"?>
+<TreeNode>
+  <Id>0</Id>
+  <NodeText>Root</NodeText>
+  <IsSelected>true</IsSelected>
+  <ParentNodeId>-1</ParentNodeId>
+  <ChildNodes>
+    <TreeNode>
+      <Id>1</Id>
+      <NodeText>Node1</NodeText>
+      <IsSelected>false</IsSelected>
+      <ParentNodeId>0</ParentNodeId>
+      <ChildNodes>
+        <TreeNode>
+          <Id>2</Id>
+          <NodeText>Node11</NodeText>
+          <IsSelected>false</IsSelected>
+          <ParentNodeId>1</ParentNodeId>
+          <ChildNodes />
+        </TreeNode>
+        <TreeNode>
+          <Id>3</Id>
+          <NodeText>Node12</NodeText>
+          <IsSelected>false</IsSelected>
+          <ParentNodeId>1</ParentNodeId>
+          <ChildNodes>
+            <TreeNode>
+              <Id>50</Id>
+              <NodeText>Node121</NodeText>
+              <IsSelected>false</IsSelected>
+              <ParentNodeId>3</ParentNodeId>
+              <ChildNodes />
+            </TreeNode>
+            <TreeNode>
+              <Id>60</Id>
+              <NodeText>Node122</NodeText>
+              <IsSelected>false</IsSelected>
+              <ParentNodeId>3</ParentNodeId>
+              <ChildNodes />
+            </TreeNode>
+            <TreeNode>
+              <Id>70</Id>
+              <NodeText>Node123</NodeText>
+              <IsSelected>false</IsSelected>
+              <ParentNodeId>3</ParentNodeId>
+              <ChildNodes />
+            </TreeNode>
+          </ChildNodes>
+        </TreeNode>
+      </ChildNodes>
+    </TreeNode>
+    <TreeNode>
+      <Id>4</Id>
+      <NodeText>Node2</NodeText>
+      <IsSelected>false</IsSelected>
+      <ParentNodeId>0</ParentNodeId>
+      <ChildNodes />
+    </TreeNode>
+    <TreeNode>
+      <Id>5</Id>
+      <NodeText>Node3</NodeText>
+      <IsSelected>true</IsSelected>
+      <ParentNodeId>0</ParentNodeId>
+      <ChildNodes>
+        <TreeNode>
+          <Id>6</Id>
+          <NodeText>Node31</NodeText>
+          <IsSelected>false</IsSelected>
+          <ParentNodeId>5</ParentNodeId>
+          <ChildNodes />
+        </TreeNode>
+        <TreeNode>
+          <Id>7</Id>
+          <NodeText>Node32</NodeText>
+          <IsSelected>true</IsSelected>
+          <ParentNodeId>5</ParentNodeId>
+          <ChildNodes />
+        </TreeNode>
+      </ChildNodes>
+    </TreeNode>
+    <TreeNode>
+      <Id>8</Id>
+      <NodeText>Node4</NodeText>
+      <IsSelected>false</IsSelected>
+      <ParentNodeId>0</ParentNodeId>
+      <ChildNodes>
+        <TreeNode>
+          <Id>9</Id>
+          <NodeText>Node41</NodeText>
+          <IsSelected>false</IsSelected>
+          <ParentNodeId>8</ParentNodeId>
+          <ChildNodes />
+        </TreeNode>
+        <TreeNode>
+          <Id>10</Id>
+          <NodeText>Node42</NodeText>
+          <IsSelected>false</IsSelected>
+          <ParentNodeId>8</ParentNodeId>
+          <ChildNodes />
+        </TreeNode>
+        <TreeNode>
+          <Id>10</Id>
+          <NodeText>Node43</NodeText>
+          <IsSelected>false</IsSelected>
+          <ParentNodeId>8</ParentNodeId>
+          <ChildNodes />
+        </TreeNode>
+      </ChildNodes>
+    </TreeNode>
+    <TreeNode>
+      <Id>11</Id>
+      <NodeText>Node5</NodeText>
+      <IsSelected>false</IsSelected>
+      <ParentNodeId>0</ParentNodeId>
+      <ChildNodes />
+    </TreeNode>
+  </ChildNodes>
+</TreeNode>
